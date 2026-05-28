@@ -497,7 +497,7 @@ address {
 
 .close-project {
   position: fixed;
-  top: 24px;
+  top: calc(var(--header-h) + 18px);
   right: clamp(18px, 4vw, 54px);
   z-index: 2;
   padding: 0;
@@ -602,15 +602,17 @@ address {
     inset: 0;
     z-index: 1;
     display: grid;
-    align-content: center;
+    align-content: start;
     justify-items: start;
-    gap: clamp(18px, 4vh, 34px);
+    gap: clamp(14px, 3vh, 26px);
     width: 100%;
     max-width: 100%;
-    padding: 96px 20px 34px;
+    min-height: 100dvh;
+    padding: clamp(104px, 16vh, 132px) 20px 34px;
+    overflow-y: auto;
     color: var(--white);
     background: rgba(5, 5, 5, 0.98);
-    font-size: clamp(48px, 15vw, 98px);
+    font-size: clamp(48px, 14vw, 84px);
     line-height: 0.88;
     letter-spacing: 0;
     opacity: 0;
@@ -635,7 +637,10 @@ address {
 
   body.menu-open .site-header {
     color: var(--white);
-    background: transparent;
+    height: 72px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background: rgba(5, 5, 5, 0.98);
     box-shadow: none;
   }
 
@@ -709,6 +714,12 @@ address {
 
   .project-view-header {
     min-height: 68vh;
+    padding-top: 120px;
+  }
+
+  .close-project {
+    top: 92px;
+    right: 20px;
   }
 }
 
