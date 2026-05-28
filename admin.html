@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin - Vinicius Banhara</title>
+    <link rel="stylesheet" href="admin.css">
+  </head>
+  <body>
+    <header class="admin-header">
+      <a class="admin-brand" href="index.html">
+        <span>Vinicius</span>
+        <span>Banhara</span>
+      </a>
+      <nav aria-label="Admin actions">
+        <a href="index.html" target="_blank" rel="noreferrer">Ver site</a>
+        <button type="button" id="exportData">Exportar backup</button>
+        <label class="import-label" for="importData">Importar JSON</label>
+        <input id="importData" type="file" accept="application/json">
+      </nav>
+    </header>
+
+    <main class="admin-shell">
+      <section class="admin-intro">
+        <p class="kicker">Painel administrativo</p>
+        <h1>Projetos do portfólio</h1>
+        <p>Cadastre projetos, adicione imagens e organize a ordem em que eles aparecem no site.</p>
+      </section>
+
+      <section class="admin-layout">
+        <form class="project-form" id="projectForm">
+          <div class="form-head">
+            <div>
+              <p class="kicker" id="formMode">Novo projeto</p>
+              <h2>Conteúdo</h2>
+            </div>
+            <button class="ghost-button" type="button" id="cancelEdit" hidden>Cancelar edição</button>
+          </div>
+
+          <label>
+            Título
+            <input id="projectTitleInput" name="title" type="text" required placeholder="Ex.: Dublin Nights">
+          </label>
+
+          <label>
+            Ano
+            <input id="projectYearInput" name="year" type="text" placeholder="2026">
+          </label>
+
+          <label>
+            Descrição curta
+            <textarea id="projectTextInput" name="text" rows="5" required placeholder="Uma linha de contexto sobre o projeto."></textarea>
+          </label>
+
+          <div class="field-group">
+            <p class="field-title">Imagem de capa</p>
+            <label>
+              URL da capa
+              <input id="thumbUrlInput" name="thumbUrl" type="url" placeholder="https://...">
+            </label>
+            <label>
+              Ou enviar arquivo
+              <input id="thumbFileInput" name="thumbFile" type="file" accept="image/*">
+            </label>
+          </div>
+
+          <div class="field-group">
+            <p class="field-title">Galeria do projeto</p>
+            <label>
+              URLs das imagens, uma por linha
+              <textarea id="imageUrlsInput" name="imageUrls" rows="7" placeholder="https://..."></textarea>
+            </label>
+            <label>
+              Ou enviar imagens
+              <input id="imageFilesInput" name="imageFiles" type="file" accept="image/*" multiple>
+            </label>
+            <label class="check-row">
+              <input id="replaceImagesInput" type="checkbox">
+              Substituir imagens existentes ao editar
+            </label>
+          </div>
+
+          <button class="primary-button" type="submit">Salvar projeto</button>
+          <p class="status" id="statusMessage" role="status" aria-live="polite"></p>
+        </form>
+
+        <section class="project-manager" aria-labelledby="projectManagerTitle">
+          <div class="manager-head">
+            <div>
+              <p class="kicker">Publicados localmente</p>
+              <h2 id="projectManagerTitle">Projetos</h2>
+            </div>
+            <button class="ghost-button" type="button" id="resetData">Restaurar demo</button>
+          </div>
+          <div class="project-admin-list" id="adminProjectList"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="projects-data.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>

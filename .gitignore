@@ -1,0 +1,13 @@
+tmp/
+MATERIAL DO CLIENTE/
+Portfólio/
+*.psd
+*.tif
+*.tiff
+*.raw
+*.dng
+*.cr2
+*.nef
+*.arw
+.DS_Store
+Thumbs.db
