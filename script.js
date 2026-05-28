@@ -1,4 +1,4 @@
-const projects = [
+const fallbackProjects = window.VB_DEFAULT_PROJECTS || [
   {
     title: "Still Light",
     year: "2025",
@@ -36,6 +36,34 @@ const projects = [
     ]
   }
 ];
+const PROJECT_STORAGE_KEY = window.VB_PROJECTS_STORAGE_KEY || "vinicius-banhara-projects";
+
+function normalizeProject(project) {
+  const images = Array.isArray(project.images) ? project.images.filter(Boolean) : [];
+
+  return {
+    title: String(project.title || "Untitled project").trim(),
+    year: String(project.year || "").trim(),
+    text: String(project.text || "").trim(),
+    thumb: String(project.thumb || images[0] || "").trim(),
+    images
+  };
+}
+
+function loadProjects() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(PROJECT_STORAGE_KEY) || "null");
+    if (Array.isArray(saved) && saved.length) {
+      return saved.map(normalizeProject);
+    }
+  } catch (error) {
+    localStorage.removeItem(PROJECT_STORAGE_KEY);
+  }
+
+  return fallbackProjects.map(normalizeProject);
+}
+
+const projects = loadProjects();
 
 const projectList = document.querySelector("#projectList");
 const projectView = document.querySelector("#projectView");
