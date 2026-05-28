@@ -51,13 +51,20 @@ function normalizeProject(project) {
 }
 
 function loadProjects() {
+  let saved = null;
+
   try {
-    const saved = JSON.parse(localStorage.getItem(PROJECT_STORAGE_KEY) || "null");
-    if (Array.isArray(saved) && saved.length) {
-      return saved.map(normalizeProject);
-    }
+    saved = JSON.parse(localStorage.getItem(PROJECT_STORAGE_KEY) || "null");
   } catch (error) {
-    localStorage.removeItem(PROJECT_STORAGE_KEY);
+    try {
+      localStorage.removeItem(PROJECT_STORAGE_KEY);
+    } catch (storageError) {
+      saved = null;
+    }
+  }
+
+  if (Array.isArray(saved) && saved.length) {
+    return saved.map(normalizeProject);
   }
 
   return fallbackProjects.map(normalizeProject);
@@ -150,7 +157,8 @@ projectList.addEventListener("click", (event) => {
 
 closeProject.addEventListener("click", closeProjectView);
 
-menuToggle.addEventListener("click", () => {
+menuToggle.addEventListener("click", (event) => {
+  event.preventDefault();
   setMenuState(!document.body.classList.contains("menu-open"));
 });
 

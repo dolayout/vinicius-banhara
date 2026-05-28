@@ -124,14 +124,18 @@ button {
   z-index: 2;
   display: none;
   align-items: center;
+  justify-content: flex-end;
   gap: 12px;
-  padding: 0;
+  min-width: 96px;
+  min-height: 44px;
+  padding: 0 0 0 16px;
   border: 0;
   color: currentColor;
   background: transparent;
   font-size: 12px;
   line-height: 1;
   text-transform: uppercase;
+  touch-action: manipulation;
   cursor: none;
 }
 
@@ -594,6 +598,8 @@ address {
 
   .menu-toggle {
     display: inline-flex;
+    position: relative;
+    z-index: 5;
     cursor: pointer;
   }
 
