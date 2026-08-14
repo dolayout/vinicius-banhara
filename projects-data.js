@@ -2,6 +2,41 @@ window.VB_PROJECTS_STORAGE_KEY = "vinicius-banhara-projects";
 
 window.VB_DEFAULT_PROJECTS = [
   {
+    title: "Hasta Finisterre",
+    year: "2025",
+    text: "Caminhar para dentro de si. Não para ser encontrado, mas para se deixar encontrar.",
+    preface: [
+      "Caminhar para dentro de si. Não para ser encontrado, mas para se deixar encontrar.",
+      "No conjunto de imagens que compõem este ensaio de Vinicius Banhara, o observador tem a oportunidade de se deparar com condições determinantes para a experiência que se oferece diante dos olhos. A primeira e mais imediata é a de observar os objetos capturados como coisas concretas, sem atribuir-lhes significado. É legítimo ver uma cadeira e, comodamente, exercer o direito de percebê-la apenas como o que é. Ver a lavoura, a rua, um trabalhador do campo.",
+      "Outros, porém, talvez se demorem nos aspectos técnicos do fotógrafo ao harmonizar, com sensível precisão, o humano e a natureza. Essa mesma sensibilidade, em muitas ocasiões, conduz o olhar à infinitude de determinadas perspectivas e ângulos.",
+      "O trabalho de Banhara presenteia o espectador com a rara habilidade de revelar a ausência justamente onde há presença. Nas figuras humanas, a solitude se intensifica; ela não nasce do vazio ou da falta de cores e sorrisos, mas do modo como a existência aparece – densa, silenciosa, quase suspensa no tempo.",
+      "Assim como os trajetos retratados pelas câmeras do fotógrafo, também nós somos atravessados pelo tempo e pelo percurso. O ser humano não nasce definido: primeiro se é, e só depois se tenta compreender o próprio motivo de ser. Nesse movimento contínuo de atribuir sentido à existência, delineamos caminhos visíveis e invisíveis, externos e internos.",
+      "Para alguns, a construção desses motivos passa pelo êxito material; para outros, pela continuidade da vida, pela crença em uma divindade, ou simplesmente pela necessidade de compreender. Há, porém, os que têm a coragem de revisitar o caminho percorrido – o interno, de difícil acesso –, ainda que para isso também seja preciso cruzar espaços físicos.",
+      "É nesse encontro entre a jornada exterior e a jornada íntima que Vinicius Banhara nos permite acompanhá-lo. A compreensão desse processo de busca de si, traduzido aqui em imagens, permite ao privilegiado observador roubar o olhar do autor.",
+      "A rota que parte de Santiago de Compostela possui um limite físico: o antigo “fim do mundo”. Finisterre se impõe como um destino intransponível, onde as águas do Atlântico dissolvem o que resta do caminho e encerram o percurso terreno, mas não o humano.",
+      "As barreiras que se revelam ao longo da travessia são fronteiras internas, testemunhos silenciosos de um embate profundo. É essa passagem, não apenas sobre terras, mas sobre si, que o fotógrafo nos oferece testemunhar.",
+      "Cristiano Goulart"
+    ],
+    thumb: "assets/hasta-finisterre/hasta-finisterre-01.jpg",
+    images: [
+      "assets/hasta-finisterre/hasta-finisterre-01.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-02.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-03.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-04.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-05.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-06.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-07.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-08.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-09.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-10.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-11.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-12.jpg",
+      "assets/hasta-finisterre/hasta-finisterre-13.jpg"
+    ],
+    hideCaptions: true,
+    noFilter: true
+  },
+  {
     title: "Still Light",
     year: "2025",
     text: "Quiet urban photographs built around night, windows and the small distance between people and the city.",

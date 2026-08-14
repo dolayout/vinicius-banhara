@@ -40,14 +40,34 @@ const PROJECT_STORAGE_KEY = window.VB_PROJECTS_STORAGE_KEY || "vinicius-banhara-
 
 function normalizeProject(project) {
   const images = Array.isArray(project.images) ? project.images.filter(Boolean) : [];
+  const preface = Array.isArray(project.preface)
+    ? project.preface.filter(Boolean).map((paragraph) => String(paragraph).trim())
+    : String(project.preface || "").split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
 
   return {
     title: String(project.title || "Untitled project").trim(),
     year: String(project.year || "").trim(),
     text: String(project.text || "").trim(),
     thumb: String(project.thumb || images[0] || "").trim(),
-    images
+    images,
+    preface,
+    hideCaptions: Boolean(project.hideCaptions),
+    noFilter: Boolean(project.noFilter)
   };
+}
+
+function projectKey(project) {
+  return normalizeProject(project).title.toLowerCase();
+}
+
+function mergeDefaultProjects(savedProjects) {
+  const saved = Array.isArray(savedProjects) ? savedProjects.map(normalizeProject) : [];
+  const defaults = fallbackProjects.map(normalizeProject);
+  const defaultKeys = new Set(defaults.map(projectKey));
+  return [
+    ...defaults,
+    ...saved.filter((project) => !defaultKeys.has(projectKey(project)))
+  ];
 }
 
 function loadProjects() {
@@ -64,7 +84,7 @@ function loadProjects() {
   }
 
   if (Array.isArray(saved) && saved.length) {
-    return saved.map(normalizeProject);
+    return mergeDefaultProjects(saved);
   }
 
   return fallbackProjects.map(normalizeProject);
@@ -77,6 +97,7 @@ const projectView = document.querySelector("#projectView");
 const projectTitle = document.querySelector("#projectTitle");
 const projectText = document.querySelector("#projectText");
 const projectCounter = document.querySelector("#projectCounter");
+const projectPreface = document.querySelector("#projectPreface");
 const projectImages = document.querySelector("#projectImages");
 const closeProject = document.querySelector(".close-project");
 const cursor = document.querySelector(".cursor");
@@ -86,7 +107,7 @@ const menuLinks = document.querySelectorAll(".site-nav a");
 
 function buildProjects() {
   projectList.innerHTML = projects.map((project, index) => `
-    <button class="project-card" type="button" data-project="${index}">
+    <button class="project-card${project.noFilter ? " is-unfiltered" : ""}" type="button" data-project="${index}">
       <span>${String(index + 1).padStart(2, "0")} / ${project.year}</span>
       <img src="${project.thumb}" alt="${project.title} project thumbnail.">
       <div>
@@ -103,12 +124,20 @@ function openProject(index) {
   projectTitle.textContent = project.title;
   projectText.textContent = project.text;
   projectCounter.textContent = `${String(index + 1).padStart(2, "0")} / ${projects.length}`;
+  projectPreface.innerHTML = project.preface.length
+    ? `
+      <div class="project-preface-inner">
+        ${project.preface.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+      </div>
+    `
+    : "";
   projectImages.innerHTML = project.images.map((src, imageIndex) => `
     <figure>
       <img src="${src}" alt="${project.title} photograph ${imageIndex + 1}.">
-      <figcaption>${project.title} / Image ${String(imageIndex + 1).padStart(2, "0")}</figcaption>
+      ${project.hideCaptions ? "" : `<figcaption>${project.title} / Image ${String(imageIndex + 1).padStart(2, "0")}</figcaption>`}
     </figure>
   `).join("");
+  projectView.classList.toggle("is-unfiltered", project.noFilter);
   projectView.classList.add("is-open");
   projectView.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
@@ -118,6 +147,15 @@ function closeProjectView() {
   projectView.classList.remove("is-open");
   projectView.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function updateHeroState() {
