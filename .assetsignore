@@ -1,0 +1,22 @@
+.git/
+.github/
+node_modules/
+tmp/
+.wrangler/
+
+MATERIAL DO CLIENTE/
+Portfólio/
+Projeto Hasta Finisterre/
+Ajustes/
+Limiares/
+
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.log
+*.zip
+*.psd
+*.psb
+*.ai
+*.indd
