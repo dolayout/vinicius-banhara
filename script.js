@@ -1,56 +1,94 @@
-const fallbackProjects = window.VB_DEFAULT_PROJECTS || [
-  {
-    title: "Still Light",
-    year: "2025",
-    text: "Quiet urban photographs built around night, windows and the small distance between people and the city.",
-    thumb: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=85",
-    images: [
-      "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=2200&q=85",
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85",
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=85",
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=85"
+const fallbackProjects = window.VB_DEFAULT_PROJECTS || [];
+const PROJECT_STORAGE_KEY = window.VB_PROJECTS_STORAGE_KEY || "vinicius-banhara-projects";
+const disableLocalProjects = Boolean(window.VB_DISABLE_LOCAL_PROJECTS);
+const SLIDESHOW_INTERVAL = 4600;
+
+const translations = {
+  en: {
+    menu: "Menu",
+    close: "Close",
+    navWork: "Work",
+    navAbout: "About",
+    navContact: "Contact",
+    heroRole: "Photographer",
+    heroText: "Exploring displacement, distance and belonging through a poetic approach to documentary photography.",
+    workKicker: "Work",
+    aboutKicker: "About",
+    contactKicker: "Contact",
+    about: [
+      "Vinicius Banhara is a Brazilian photographer based in Dublin, Ireland. His work moves between street and documentary photography, as well as a more poetic and contemplative approach, exploring people, place, identity and the different ways we experience a sense of belonging.",
+      "His practice is rooted in observation. Walking, waiting and allowing encounters to shape the work are central to his process. He is drawn to quiet, ambiguous and often fleeting moments, seeking not only to document what he encounters, but also to reveal the atmosphere, emotions and relationships that exist between people and the spaces they inhabit.",
+      "Banhara studied Social Sciences and Marketing, and his interest in society and human behaviour continues to influence his photographic approach. He is currently developing his practice through independent projects and mentorships with Brazilian painter and printmaker Sergio Fingermann and photographer Osvaldo Santos Lima.",
+      "His ongoing project Limiares explores displacement, identity and the space between belonging and being a foreigner, reflecting on the experience of living between places and cultures."
     ]
   },
-  {
-    title: "After Rain",
-    year: "2024",
-    text: "A sequence about wet streets, soft reflection and the suspended feeling that appears after weather changes.",
-    thumb: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=900&q=85",
-    images: [
-      "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=2200&q=85",
-      "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1800&q=85",
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85",
-      "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=1800&q=85"
-    ]
-  },
-  {
-    title: "Urban Room",
-    year: "2024",
-    text: "Fragments of interiors, crossings and public space, treated as a visual diary of light moving through surfaces.",
-    thumb: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85",
-    images: [
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=85",
-      "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=1800&q=85",
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=85",
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=85"
+  pt: {
+    menu: "Menu",
+    close: "Fechar",
+    navWork: "Projetos",
+    navAbout: "Sobre",
+    navContact: "Contato",
+    heroRole: "Fotógrafo",
+    heroText: "Explorando deslocamento, distância e pertencimento por meio de uma abordagem poética da fotografia documental.",
+    workKicker: "Projetos",
+    aboutKicker: "Sobre",
+    contactKicker: "Contato",
+    about: [
+      "Vinicius Banhara é um fotógrafo brasileiro baseado em Dublin, Irlanda. Seu trabalho transita entre a fotografia de rua e documental, assim como por uma abordagem mais poética e contemplativa, explorando pessoas, lugares, identidade e as diferentes formas como vivenciamos o senso de pertencimento.",
+      "Sua prática nasce da observação. Caminhar, esperar e permitir que os encontros moldem o trabalho são partes centrais de seu processo. Ele se interessa por momentos silenciosos, ambíguos e muitas vezes fugazes, buscando não apenas documentar o que encontra, mas também revelar a atmosfera, as emoções e as relações que existem entre as pessoas e os espaços que habitam.",
+      "Banhara estudou Ciências Sociais e Marketing, e seu interesse pela sociedade e pelo comportamento humano continua influenciando sua abordagem fotográfica. Atualmente desenvolve sua prática por meio de projetos independentes e mentorias com o pintor e gravador brasileiro Sergio Fingermann e o fotógrafo Osvaldo Santos Lima.",
+      "Seu projeto em andamento Limiares explora deslocamento, identidade e o espaço entre pertencer e ser estrangeiro, refletindo sobre a experiência de viver entre lugares e culturas."
     ]
   }
-];
-const PROJECT_STORAGE_KEY = window.VB_PROJECTS_STORAGE_KEY || "vinicius-banhara-projects";
+};
+
+let currentLanguage = "en";
+let activeHeroIndex = 0;
+
+const projectList = document.querySelector("#projectList");
+const projectView = document.querySelector("#projectView");
+const projectTitle = document.querySelector("#projectTitle");
+const projectText = document.querySelector("#projectText");
+const projectCounter = document.querySelector("#projectCounter");
+const projectPreface = document.querySelector("#projectPreface");
+const projectImages = document.querySelector("#projectImages");
+const closeProject = document.querySelector(".close-project");
+const siteHeader = document.querySelector(".site-header");
+const menuToggle = document.querySelector(".menu-toggle");
+const menuLabel = document.querySelector(".menu-label");
+const menuLinks = document.querySelectorAll(".site-nav a");
+const languageButtons = document.querySelectorAll("[data-language]");
+const heroFrames = Array.from(document.querySelectorAll(".hero-frame"));
+
+const navItems = {
+  work: document.querySelector('.site-nav a[href="#work"]'),
+  about: document.querySelector('.site-nav a[href="#about"]'),
+  contact: document.querySelector('.site-nav a[href="#contact"]')
+};
+
+const staticCopy = {
+  heroRole: document.querySelector(".hero-caption p:first-of-type"),
+  heroText: document.querySelector(".hero-caption p:last-of-type"),
+  workKicker: document.querySelector("#work .section-kicker"),
+  aboutKicker: document.querySelector("#about .section-kicker"),
+  contactKicker: document.querySelector("#contact .section-kicker"),
+  aboutCopy: document.querySelector(".about-copy")
+};
 
 function normalizeProject(project) {
   const images = Array.isArray(project.images) ? project.images.filter(Boolean) : [];
-  const preface = Array.isArray(project.preface)
-    ? project.preface.filter(Boolean).map((paragraph) => String(paragraph).trim())
-    : String(project.preface || "").split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
+  const details = Array.isArray(project.details)
+    ? project.details.filter(Boolean).map((paragraph) => String(paragraph).trim())
+    : String(project.details || "").split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
 
   return {
     title: String(project.title || "Untitled project").trim(),
     year: String(project.year || "").trim(),
     text: String(project.text || "").trim(),
+    details,
+    copy: project.copy || {},
     thumb: String(project.thumb || images[0] || "").trim(),
     images,
-    preface,
     hideCaptions: Boolean(project.hideCaptions),
     noFilter: Boolean(project.noFilter)
   };
@@ -71,6 +109,10 @@ function mergeDefaultProjects(savedProjects) {
 }
 
 function loadProjects() {
+  if (disableLocalProjects) {
+    return fallbackProjects.map(normalizeProject);
+  }
+
   let saved = null;
 
   try {
@@ -92,45 +134,37 @@ function loadProjects() {
 
 const projects = loadProjects();
 
-const projectList = document.querySelector("#projectList");
-const projectView = document.querySelector("#projectView");
-const projectTitle = document.querySelector("#projectTitle");
-const projectText = document.querySelector("#projectText");
-const projectCounter = document.querySelector("#projectCounter");
-const projectPreface = document.querySelector("#projectPreface");
-const projectImages = document.querySelector("#projectImages");
-const closeProject = document.querySelector(".close-project");
-const cursor = document.querySelector(".cursor");
-const siteHeader = document.querySelector(".site-header");
-const menuToggle = document.querySelector(".menu-toggle");
-const menuLinks = document.querySelectorAll(".site-nav a");
+function getProjectCopy(project) {
+  const localized = project.copy?.[currentLanguage] || {};
+  return {
+    text: localized.text || project.text,
+    details: Array.isArray(localized.details) ? localized.details : project.details
+  };
+}
 
 function buildProjects() {
-  projectList.innerHTML = projects.map((project, index) => `
-    <button class="project-card${project.noFilter ? " is-unfiltered" : ""}" type="button" data-project="${index}">
-      <span>${String(index + 1).padStart(2, "0")} / ${project.year}</span>
-      <img src="${project.thumb}" alt="${project.title} project thumbnail.">
-      <div>
-        <h3>${project.title}</h3>
-      </div>
-      <span class="arrow" aria-hidden="true">-></span>
-      <p>${project.text}</p>
-    </button>
-  `).join("");
+  projectList.innerHTML = projects.map((project, index) => {
+    const copy = getProjectCopy(project);
+    return `
+      <button class="project-card${project.noFilter ? " is-unfiltered" : ""}" type="button" data-project="${index}">
+        <img src="${project.thumb}" alt="${project.title} project thumbnail.">
+        <div>
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(copy.text)}</p>
+        </div>
+        <span class="arrow" aria-hidden="true">-></span>
+      </button>
+    `;
+  }).join("");
 }
 
 function openProject(index) {
   const project = projects[index];
+  const copy = getProjectCopy(project);
   projectTitle.textContent = project.title;
-  projectText.textContent = project.text;
-  projectCounter.textContent = `${String(index + 1).padStart(2, "0")} / ${projects.length}`;
-  projectPreface.innerHTML = project.preface.length
-    ? `
-      <div class="project-preface-inner">
-        ${project.preface.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
-      </div>
-    `
-    : "";
+  projectText.innerHTML = copy.details.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
+  projectCounter.textContent = "";
+  projectPreface.innerHTML = "";
   projectImages.innerHTML = project.images.map((src, imageIndex) => `
     <figure>
       <img src="${src}" alt="${project.title} photograph ${imageIndex + 1}.">
@@ -158,15 +192,19 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-function updateHeroState() {
-  const frames = document.querySelectorAll(".hero-frame");
-  const center = window.innerHeight * 0.5;
-
-  frames.forEach((frame) => {
-    const rect = frame.getBoundingClientRect();
-    const active = rect.top <= center && rect.bottom >= center;
-    frame.classList.toggle("is-active", active);
+function setHeroFrame(index) {
+  if (!heroFrames.length) return;
+  activeHeroIndex = index % heroFrames.length;
+  heroFrames.forEach((frame, frameIndex) => {
+    frame.classList.toggle("is-active", frameIndex === activeHeroIndex);
   });
+}
+
+function startHeroSlideshow() {
+  if (heroFrames.length < 2) return;
+  setInterval(() => {
+    setHeroFrame(activeHeroIndex + 1);
+  }, SLIDESHOW_INTERVAL);
 }
 
 function updateHeaderState() {
@@ -178,13 +216,38 @@ function setMenuState(isOpen) {
   menuToggle.setAttribute("aria-expanded", String(isOpen));
 }
 
-function updateCursor(event) {
-  cursor.style.left = `${event.clientX}px`;
-  cursor.style.top = `${event.clientY}px`;
+function setLanguage(language) {
+  currentLanguage = translations[language] ? language : "en";
+  const copy = translations[currentLanguage];
+  document.body.dataset.language = currentLanguage;
+  document.documentElement.lang = currentLanguage === "pt" ? "pt-BR" : "en";
+
+  menuLabel.textContent = copy.menu;
+  closeProject.textContent = copy.close;
+  navItems.work.textContent = copy.navWork;
+  navItems.about.textContent = copy.navAbout;
+  navItems.contact.textContent = copy.navContact;
+  staticCopy.heroRole.textContent = copy.heroRole;
+  staticCopy.heroText.textContent = copy.heroText;
+  staticCopy.workKicker.textContent = copy.workKicker;
+  staticCopy.aboutKicker.textContent = copy.aboutKicker;
+  staticCopy.contactKicker.textContent = copy.contactKicker;
+  staticCopy.aboutCopy.querySelectorAll("p").forEach((paragraph, index) => {
+    paragraph.textContent = copy.about[index] || paragraph.textContent;
+  });
+
+  languageButtons.forEach((button) => {
+    const isCurrent = button.dataset.language === currentLanguage;
+    button.classList.toggle("is-active", isCurrent);
+    button.setAttribute("aria-pressed", String(isCurrent));
+  });
+
+  buildProjects();
 }
 
-buildProjects();
-updateHeroState();
+setLanguage("en");
+setHeroFrame(0);
+startHeroSlideshow();
 updateHeaderState();
 
 projectList.addEventListener("click", (event) => {
@@ -204,6 +267,10 @@ menuLinks.forEach((link) => {
   link.addEventListener("click", () => setMenuState(false));
 });
 
+languageButtons.forEach((button) => {
+  button.addEventListener("click", () => setLanguage(button.dataset.language));
+});
+
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   closeProjectView();
@@ -216,14 +283,4 @@ document.querySelectorAll("[data-scroll-target]").forEach((button) => {
   });
 });
 
-window.addEventListener("scroll", () => {
-  updateHeroState();
-  updateHeaderState();
-}, { passive: true });
-
-if (window.matchMedia("(pointer: fine)").matches) {
-  window.addEventListener("mousemove", updateCursor);
-  document.addEventListener("mouseover", (event) => {
-    cursor.classList.toggle("is-hovering", Boolean(event.target.closest("a, button")));
-  });
-}
+window.addEventListener("scroll", updateHeaderState, { passive: true });

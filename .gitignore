@@ -1,7 +1,10 @@
 tmp/
-MATERIAL DO CLIENTE/
-Portfólio/
-Projeto Hasta Finisterre/
+/MATERIAL DO CLIENTE/
+/Portfólio/
+/Projeto Hasta Finisterre/
+/Ajustes/
+/Limiares/
+*.zip
 *.psd
 *.tif
 *.tiff

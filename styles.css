@@ -23,7 +23,7 @@ body {
   background: var(--black);
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0;
-  cursor: none;
+  cursor: auto;
 }
 
 body.menu-open {
@@ -45,34 +45,11 @@ button {
 }
 
 .grain {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.16;
-  mix-blend-mode: screen;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.18) 0 1px, transparent 1px),
-    radial-gradient(circle at 80% 60%, rgba(255,255,255,0.1) 0 1px, transparent 1px);
-  background-size: 3px 3px, 5px 5px;
+  display: none;
 }
 
 .cursor {
-  position: fixed;
-  z-index: 80;
-  width: 26px;
-  height: 26px;
-  border: 1px solid rgba(245, 242, 236, 0.72);
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: width 180ms ease, height 180ms ease, border-color 180ms ease, background 180ms ease;
-}
-
-.cursor.is-hovering {
-  width: 52px;
-  height: 52px;
-  background: rgba(245, 242, 236, 0.1);
+  display: none;
 }
 
 .site-header {
@@ -119,6 +96,31 @@ button {
   text-transform: uppercase;
 }
 
+.language-switch {
+  position: absolute;
+  left: 50%;
+  display: inline-flex;
+  gap: 8px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.language-switch button {
+  padding: 0;
+  border: 0;
+  color: currentColor;
+  background: transparent;
+  opacity: 0.45;
+  cursor: pointer;
+}
+
+.language-switch button.is-active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .menu-toggle {
   position: relative;
   z-index: 2;
@@ -136,7 +138,7 @@ button {
   line-height: 1;
   text-transform: uppercase;
   touch-action: manipulation;
-  cursor: none;
+  cursor: pointer;
 }
 
 .menu-icon {
@@ -194,40 +196,42 @@ address a:hover::after {
 
 .hero-stack {
   position: relative;
-  min-height: 600vh;
-}
-
-.hero-frame {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+  height: 100svh;
+  min-height: 620px;
   overflow: hidden;
   background: var(--black);
 }
 
-.hero-frame img {
+.hero-frame {
+  position: absolute;
+  inset: 0;
   height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.08);
-  opacity: 0.92;
-  scale: 1.04;
-  transition: opacity 500ms ease, scale 1200ms ease;
+  overflow: hidden;
+  background: var(--black);
+  opacity: 0;
+  transition: opacity 1200ms ease;
 }
 
-.hero-frame.is-active img {
+.hero-frame img {
+  height: 100%;
+  object-fit: contain;
+  filter: none;
   opacity: 1;
-  scale: 1;
+}
+
+.hero-frame.is-active {
+  opacity: 1;
 }
 
 .hero-frame::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,0.76), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.44));
+  background: linear-gradient(90deg, rgba(0,0,0,0.72), rgba(0,0,0,0.18) 48%, rgba(0,0,0,0.42));
 }
 
 .hero-caption {
-  position: fixed;
+  position: absolute;
   z-index: 20;
   left: clamp(18px, 5vw, 72px);
   bottom: clamp(32px, 8vh, 96px);
@@ -251,9 +255,16 @@ address a:hover::after {
 .hero-caption h1 {
   margin: 18px 0 18px;
   max-width: 760px;
-  font-size: clamp(42px, 8vw, 108px);
+  font-size: clamp(48px, 8vw, 112px);
   line-height: 0.92;
   font-weight: 400;
+}
+
+.hero-caption p {
+  margin: 0 0 10px;
+  max-width: 720px;
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.28;
 }
 
 .scroll-cue {
@@ -268,7 +279,7 @@ address a:hover::after {
   border-radius: 50%;
   color: var(--white);
   background: transparent;
-  cursor: none;
+  cursor: pointer;
 }
 
 .scroll-cue span {
@@ -304,43 +315,31 @@ address a:hover::after {
   border-top: 1px solid var(--line);
 }
 
-.work-intro {
-  display: grid;
-  grid-template-columns: minmax(160px, 0.8fr) minmax(280px, 1.2fr);
-  margin: 34px 0 74px;
-}
-
-.work-intro p {
-  grid-column: 2;
-  margin: 0;
-  max-width: 680px;
-  font-size: clamp(28px, 4.2vw, 58px);
-  line-height: 1.02;
-}
-
 .project-list {
+  margin-top: 34px;
   border-top: 1px solid var(--line);
 }
 
 .project-card {
   display: grid;
-  grid-template-columns: 110px minmax(220px, 0.55fr) 1fr 90px;
+  grid-template-columns: minmax(220px, 0.62fr) 1fr 90px;
   gap: clamp(16px, 4vw, 52px);
   align-items: center;
-  min-height: 188px;
-  padding: 26px 0;
+  min-height: 360px;
+  padding: 44px 0;
   border-bottom: 1px solid var(--line);
   color: var(--white);
   background: transparent;
   width: 100%;
   text-align: left;
-  cursor: none;
+  cursor: pointer;
 }
 
 .project-card img {
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
   filter: grayscale(1) contrast(1.08);
+  background: var(--black);
 }
 
 .project-card.is-unfiltered img {
@@ -357,11 +356,11 @@ address a:hover::after {
 }
 
 .project-card p {
-  grid-column: 3;
-  margin: 0;
-  max-width: 360px;
+  margin: 18px 0 0;
+  max-width: 560px;
   color: var(--muted);
-  line-height: 1.45;
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.26;
 }
 
 .project-card .arrow {
@@ -376,6 +375,7 @@ address a:hover::after {
 }
 
 .prints-section {
+  display: none;
   background: var(--paper);
   color: var(--black);
 }
@@ -423,10 +423,7 @@ address a:hover::after {
 }
 
 .about-section {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.76fr) minmax(280px, 1fr);
-  gap: clamp(32px, 8vw, 130px);
-  align-items: center;
+  display: block;
   min-height: 100vh;
 }
 
@@ -452,17 +449,17 @@ address a:hover::after {
 }
 
 .about-copy p {
-  margin: 0;
-  max-width: 580px;
-  font-size: clamp(18px, 2vw, 26px);
-  line-height: 1.35;
+  margin: 0 0 1.05em;
+  max-width: 900px;
+  font-size: clamp(18px, 2vw, 25px);
+  line-height: 1.42;
   color: var(--muted);
 }
 
 .contact-section {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(220px, 0.45fr);
-  gap: clamp(36px, 7vw, 100px);
+  justify-items: center;
+  text-align: center;
   min-height: 72vh;
   align-items: center;
   border-top: 1px solid var(--line);
@@ -473,6 +470,7 @@ address {
   gap: 18px;
   font-style: normal;
   font-size: clamp(20px, 2.6vw, 34px);
+  justify-items: center;
 }
 
 .site-footer {
@@ -516,7 +514,7 @@ address {
   background: transparent;
   color: var(--black);
   text-transform: uppercase;
-  cursor: none;
+  cursor: pointer;
 }
 
 .project-view-header {
@@ -540,9 +538,13 @@ address {
 
 #projectText {
   max-width: 560px;
+  text-transform: none;
+}
+
+#projectText p {
+  margin: 0 0 0.95em;
   font-size: clamp(18px, 2vw, 28px);
   line-height: 1.32;
-  text-transform: none;
 }
 
 .project-preface {
@@ -575,7 +577,7 @@ address {
 .project-images img {
   width: min(100%, 1280px);
   max-height: 92vh;
-  object-fit: cover;
+  object-fit: contain;
   filter: grayscale(1) contrast(1.05);
 }
 
@@ -699,6 +701,10 @@ address {
     font-size: 12px;
   }
 
+  body[data-language="pt"].menu-open .menu-label::after {
+    content: "Fechar";
+  }
+
   body.menu-open .menu-icon::before {
     top: 6px;
     transform: rotate(42deg);
@@ -719,29 +725,25 @@ address {
     display: none;
   }
 
-  .work-intro,
   .about-section,
   .contact-section,
   .prints-grid {
     grid-template-columns: 1fr;
   }
 
-  .work-intro p {
-    grid-column: 1;
-  }
-
   .project-card {
-    grid-template-columns: 70px 1fr 32px;
-    min-height: 136px;
+    grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .project-card p {
-    grid-column: 2 / 4;
+    grid-column: auto;
   }
 
   .project-card .arrow {
-    grid-column: 3;
-    grid-row: 1;
+    grid-column: auto;
+    grid-row: auto;
+    justify-self: start;
   }
 
   .print-card img {

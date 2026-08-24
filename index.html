@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Vinicius Banhara - Photography</title>
     <meta name="description" content="Documentary photography by Vinicius Banhara, a Brazilian photographer based in Dublin.">
-    <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -17,13 +16,16 @@
         <span>Vinicius</span>
         <span>Banhara</span>
       </a>
+      <div class="language-switch" aria-label="Language">
+        <button type="button" data-language="en" aria-pressed="true">EN</button>
+        <button type="button" data-language="pt" aria-pressed="false">PT</button>
+      </div>
       <button class="menu-toggle" type="button" aria-controls="siteNav" aria-expanded="false">
         <span class="menu-label">Menu</span>
         <span class="menu-icon" aria-hidden="true"></span>
       </button>
       <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
         <a href="#work">Work</a>
-        <a href="#prints">Prints</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -31,28 +33,25 @@
 
     <main>
       <section id="home" class="hero-stack" aria-label="Selected photographs">
-        <article class="hero-frame is-active" data-title="Transit Light" data-meta="Portfolio / 01">
-          <img src="assets/home/home-01.webp" alt="Black and white documentary photograph inside public transport.">
+        <article class="hero-frame is-active">
+          <img src="assets/limiares/limiares-01.jpg" alt="Photograph from the Limiares series.">
         </article>
-        <article class="hero-frame" data-title="River Sign" data-meta="Portfolio / 02">
-          <img src="assets/home/home-02.webp" alt="Urban riverside scene with a bright sign and buildings in the background.">
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-02.jpg" alt="Photograph from the Limiares series.">
         </article>
-        <article class="hero-frame" data-title="Street Cart" data-meta="Portfolio / 03">
-          <img src="assets/home/home-03.webp" alt="Street scene with a cart, pedestrians and animals near the sidewalk.">
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-03.jpg" alt="Photograph from the Limiares series.">
         </article>
-        <article class="hero-frame" data-title="Public Square" data-meta="Portfolio / 04">
-          <img src="assets/home/home-04.webp" alt="People sitting in a city square under low afternoon light.">
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-04.jpg" alt="Photograph from the Limiares series.">
         </article>
-        <article class="hero-frame" data-title="No Fishing" data-meta="Portfolio / 05">
-          <img src="assets/home/home-05.webp" alt="Coastal scene with a no fishing sign, sea and cloudy sky.">
-        </article>
-        <article class="hero-frame" data-title="White Bird" data-meta="Portfolio / 06">
-          <img src="assets/home/home-06.webp" alt="White bird photographed against dark water.">
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-05.jpg" alt="Photograph from the Limiares series.">
         </article>
         <div class="hero-caption">
-          <p class="eyebrow">Documentary photography</p>
-          <h1>Moments held between light, street and silence.</h1>
-          <p class="caption-meta">Dublin, Ireland</p>
+          <h1>Vinicius Banhara</h1>
+          <p>Photographer</p>
+          <p>Exploring displacement, distance and belonging through a poetic approach to documentary photography.</p>
         </div>
         <button class="scroll-cue" type="button" data-scroll-target="#work" aria-label="Scroll to work">
           <span></span>
@@ -61,55 +60,27 @@
 
       <section id="work" class="section work-section">
         <div class="section-kicker">Work</div>
-        <div class="work-intro">
-          <p>Photographs arranged as short visual chapters: urban quiet, passing faces, weather, interiors and traces of daily life.</p>
-        </div>
         <div class="project-list" id="projectList" aria-label="Photography projects"></div>
       </section>
 
-      <section id="prints" class="section prints-section">
-        <div class="section-kicker">Prints</div>
-        <div class="prints-grid">
-          <div class="print-lead">
-            <h2>Selected prints for quiet rooms.</h2>
-            <p>Small gallery editions with restrained paper, generous borders and a focus on atmosphere over spectacle.</p>
-          </div>
-          <div class="print-card">
-            <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1400&q=85" alt="Minimal framed photographic print on a wall.">
-            <div>
-              <p>Urban Room 01</p>
-              <span>30 x 40 cm / 50 x 70 cm</span>
-            </div>
-          </div>
-          <div class="print-card">
-            <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=1400&q=85" alt="Architectural passage photographed in monochrome mood.">
-            <div>
-              <p>After Rain 03</p>
-              <span>Open edition</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section id="about" class="section about-section">
-        <div class="portrait-wrap">
-          <img src="assets/vinicius-profile.jpg" alt="Portrait of Vinicius Banhara.">
-        </div>
         <div class="about-copy">
           <div class="section-kicker">About</div>
           <h2>Vinicius Banhara</h2>
-          <p>Brazilian photographer based in Dublin. His work looks at light, color and urban space through documentary fragments and quiet scenes from everyday life.</p>
+          <p>Vinicius Banhara is a Brazilian photographer based in Dublin, Ireland. His work moves between street and documentary photography, as well as a more poetic and contemplative approach, exploring people, place, identity and the different ways we experience a sense of belonging.</p>
+          <p>His practice is rooted in observation. Walking, waiting and allowing encounters to shape the work are central to his process. He is drawn to quiet, ambiguous and often fleeting moments, seeking not only to document what he encounters, but also to reveal the atmosphere, emotions and relationships that exist between people and the spaces they inhabit.</p>
+          <p>Banhara studied Social Sciences and Marketing, and his interest in society and human behaviour continues to influence his photographic approach. He is currently developing his practice through independent projects and mentorships with Brazilian painter and printmaker Sergio Fingermann and photographer Osvaldo Santos Lima.</p>
+          <p>His ongoing project <em>Limiares</em> explores displacement, identity and the space between belonging and being a foreigner, reflecting on the experience of living between places and cultures.</p>
         </div>
       </section>
 
       <section id="contact" class="section contact-section">
         <div>
           <div class="section-kicker">Contact</div>
-          <h2>Available for documentary, editorial and portrait assignments.</h2>
         </div>
         <address>
-          <a href="mailto:contact@viniciusbanhara.com">contact@viniciusbanhara.com</a>
-          <a href="https://www.instagram.com/vinicius.banhara/" target="_blank" rel="noreferrer">@vinicius.banhara</a>
+          <a href="mailto:hello@viniciusbanhara.com">hello@viniciusbanhara.com</a>
+          <a href="https://www.instagram.com/banhara.vinicius/" target="_blank" rel="noreferrer">Instagram: @banhara.vinicius</a>
         </address>
       </section>
     </main>
@@ -124,7 +95,7 @@
       <div class="project-view-header">
         <p id="projectCounter"></p>
         <h2 id="projectTitle"></h2>
-        <p id="projectText"></p>
+        <div id="projectText"></div>
       </div>
       <div class="project-preface" id="projectPreface"></div>
       <div class="project-images" id="projectImages"></div>
