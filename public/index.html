@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vinicius Banhara - Photography</title>
+    <meta name="description" content="Documentary photography by Vinicius Banhara, a Brazilian photographer based in Dublin.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="cursor" aria-hidden="true"></div>
+
+    <header class="site-header" data-invert>
+      <a class="brand" href="#home" aria-label="Vinicius Banhara home">
+        <span>Vinicius</span>
+        <span>Banhara</span>
+      </a>
+      <div class="language-switch" aria-label="Language">
+        <button type="button" data-language="en" aria-pressed="true">EN</button>
+        <button type="button" data-language="pt" aria-pressed="false">PT</button>
+      </div>
+      <button class="menu-toggle" type="button" aria-controls="siteNav" aria-expanded="false">
+        <span class="menu-label">Menu</span>
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+      <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero-stack" aria-label="Selected photographs">
+        <article class="hero-frame is-active">
+          <img src="assets/limiares/limiares-01.jpg" alt="Photograph from the Limiares series.">
+        </article>
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-02.jpg" alt="Photograph from the Limiares series.">
+        </article>
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-03.jpg" alt="Photograph from the Limiares series.">
+        </article>
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-04.jpg" alt="Photograph from the Limiares series.">
+        </article>
+        <article class="hero-frame">
+          <img src="assets/limiares/limiares-05.jpg" alt="Photograph from the Limiares series.">
+        </article>
+        <div class="hero-caption">
+          <h1>Vinicius Banhara</h1>
+          <p>Photographer</p>
+          <p>Exploring displacement, distance and belonging through a poetic approach to documentary photography.</p>
+        </div>
+        <button class="scroll-cue" type="button" data-scroll-target="#work" aria-label="Scroll to work">
+          <span></span>
+        </button>
+      </section>
+
+      <section id="work" class="section work-section">
+        <div class="section-kicker">Work</div>
+        <div class="project-list" id="projectList" aria-label="Photography projects"></div>
+      </section>
+
+      <section id="about" class="section about-section">
+        <div class="about-copy">
+          <div class="section-kicker">About</div>
+          <h2>Vinicius Banhara</h2>
+          <p>Vinicius Banhara is a Brazilian photographer based in Dublin, Ireland. His work moves between street and documentary photography, as well as a more poetic and contemplative approach, exploring people, place, identity and the different ways we experience a sense of belonging.</p>
+          <p>His practice is rooted in observation. Walking, waiting and allowing encounters to shape the work are central to his process. He is drawn to quiet, ambiguous and often fleeting moments, seeking not only to document what he encounters, but also to reveal the atmosphere, emotions and relationships that exist between people and the spaces they inhabit.</p>
+          <p>Banhara studied Social Sciences and Marketing, and his interest in society and human behaviour continues to influence his photographic approach. He is currently developing his practice through independent projects and mentorships with Brazilian painter and printmaker Sergio Fingermann and photographer Osvaldo Santos Lima.</p>
+          <p>His ongoing project <em>Limiares</em> explores displacement, identity and the space between belonging and being a foreigner, reflecting on the experience of living between places and cultures.</p>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div>
+          <div class="section-kicker">Contact</div>
+        </div>
+        <address>
+          <a href="mailto:hello@viniciusbanhara.com">hello@viniciusbanhara.com</a>
+          <a href="https://www.instagram.com/banhara.vinicius/" target="_blank" rel="noreferrer">Instagram: @banhara.vinicius</a>
+        </address>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Vinicius Banhara</span>
+      <a href="#home">Back to top</a>
+    </footer>
+
+    <aside class="project-view" id="projectView" aria-hidden="true" aria-label="Project details">
+      <button class="close-project" type="button" aria-label="Close project">Close</button>
+      <div class="project-view-header">
+        <p id="projectCounter"></p>
+        <h2 id="projectTitle"></h2>
+        <div id="projectText"></div>
+      </div>
+      <div class="project-preface" id="projectPreface"></div>
+      <div class="project-images" id="projectImages"></div>
+    </aside>
+
+    <script src="projects-data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
