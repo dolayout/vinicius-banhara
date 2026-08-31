@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Vinicius Banhara - Photography</title>
     <meta name="description" content="Documentary photography by Vinicius Banhara, a Brazilian photographer based in Dublin.">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260831-v4">
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
@@ -34,19 +34,19 @@
     <main>
       <section id="home" class="hero-stack" aria-label="Selected photographs">
         <article class="hero-frame is-active">
-          <img src="assets/limiares/limiares-01.jpg" alt="Photograph from the Limiares series.">
+          <img src="assets/home/home-01.jpg" alt="Vinicius Banhara hero photograph.">
         </article>
         <article class="hero-frame">
-          <img src="assets/limiares/limiares-02.jpg" alt="Photograph from the Limiares series.">
+          <img src="assets/home/home-02.jpg" alt="Vinicius Banhara hero photograph.">
         </article>
         <article class="hero-frame">
-          <img src="assets/limiares/limiares-03.jpg" alt="Photograph from the Limiares series.">
+          <img src="assets/home/home-03.jpg" alt="Vinicius Banhara hero photograph.">
         </article>
         <article class="hero-frame">
-          <img src="assets/limiares/limiares-04.jpg" alt="Photograph from the Limiares series.">
+          <img src="assets/home/home-04.jpg" alt="Vinicius Banhara hero photograph.">
         </article>
         <article class="hero-frame">
-          <img src="assets/limiares/limiares-05.jpg" alt="Photograph from the Limiares series.">
+          <img src="assets/home/home-05.jpg" alt="Vinicius Banhara hero photograph.">
         </article>
         <div class="hero-caption">
           <h1>Vinicius Banhara</h1>
@@ -75,18 +75,26 @@
       </section>
 
       <section id="contact" class="section contact-section">
-        <div>
+        <div class="contact-inner">
           <div class="section-kicker">Contact</div>
+          <p class="contact-note">For commissions, print enquiries and collaborations.</p>
+          <address>
+            <a class="contact-email" href="mailto:hello@viniciusbanhara.com">hello@viniciusbanhara.com</a>
+            <a class="instagram-link" href="https://www.instagram.com/banhara.vinicius/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="1"></circle>
+              </svg>
+            </a>
+          </address>
+          <p class="contact-meta">Dublin, Ireland / Available for selected projects</p>
         </div>
-        <address>
-          <a href="mailto:hello@viniciusbanhara.com">hello@viniciusbanhara.com</a>
-          <a href="https://www.instagram.com/banhara.vinicius/" target="_blank" rel="noreferrer">Instagram: @banhara.vinicius</a>
-        </address>
       </section>
     </main>
 
     <footer class="site-footer">
-      <span>Vinicius Banhara</span>
+      <span>© 2026 Vinicius Banhara. All rights reserved.</span>
       <a href="#home">Back to top</a>
     </footer>
 
@@ -98,10 +106,15 @@
         <div id="projectText"></div>
       </div>
       <div class="project-preface" id="projectPreface"></div>
-      <div class="project-images" id="projectImages"></div>
+      <div class="project-carousel" aria-label="Project image carousel">
+        <button class="carousel-button carousel-button-prev" type="button" data-carousel="prev" aria-label="Previous image"></button>
+        <div class="project-images" id="projectImages"></div>
+        <button class="carousel-button carousel-button-next" type="button" data-carousel="next" aria-label="Next image"></button>
+        <div class="project-image-counter" id="projectImageCounter"></div>
+      </div>
     </aside>
 
-    <script src="projects-data.js"></script>
-    <script src="script.js"></script>
+    <script src="projects-data.js?v=20260831-v4"></script>
+    <script src="script.js?v=20260831-v4"></script>
   </body>
 </html>

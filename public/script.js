@@ -15,6 +15,8 @@ const translations = {
     workKicker: "Work",
     aboutKicker: "About",
     contactKicker: "Contact",
+    contactNote: "For commissions, print enquiries and collaborations.",
+    contactMeta: "Dublin, Ireland / Available for selected projects",
     about: [
       "Vinicius Banhara is a Brazilian photographer based in Dublin, Ireland. His work moves between street and documentary photography, as well as a more poetic and contemplative approach, exploring people, place, identity and the different ways we experience a sense of belonging.",
       "His practice is rooted in observation. Walking, waiting and allowing encounters to shape the work are central to his process. He is drawn to quiet, ambiguous and often fleeting moments, seeking not only to document what he encounters, but also to reveal the atmosphere, emotions and relationships that exist between people and the spaces they inhabit.",
@@ -33,6 +35,8 @@ const translations = {
     workKicker: "Projetos",
     aboutKicker: "Sobre",
     contactKicker: "Contato",
+    contactNote: "Para encomendas, prints e colaborações.",
+    contactMeta: "Dublin, Irlanda / Disponível para projetos selecionados",
     about: [
       "Vinicius Banhara é um fotógrafo brasileiro baseado em Dublin, Irlanda. Seu trabalho transita entre a fotografia de rua e documental, assim como por uma abordagem mais poética e contemplativa, explorando pessoas, lugares, identidade e as diferentes formas como vivenciamos o senso de pertencimento.",
       "Sua prática nasce da observação. Caminhar, esperar e permitir que os encontros moldem o trabalho são partes centrais de seu processo. Ele se interessa por momentos silenciosos, ambíguos e muitas vezes fugazes, buscando não apenas documentar o que encontra, mas também revelar a atmosfera, as emoções e as relações que existem entre as pessoas e os espaços que habitam.",
@@ -44,6 +48,7 @@ const translations = {
 
 let currentLanguage = "en";
 let activeHeroIndex = 0;
+let activeProjectImageIndex = 0;
 
 const projectList = document.querySelector("#projectList");
 const projectView = document.querySelector("#projectView");
@@ -52,6 +57,8 @@ const projectText = document.querySelector("#projectText");
 const projectCounter = document.querySelector("#projectCounter");
 const projectPreface = document.querySelector("#projectPreface");
 const projectImages = document.querySelector("#projectImages");
+const projectImageCounter = document.querySelector("#projectImageCounter");
+const carouselButtons = document.querySelectorAll("[data-carousel]");
 const closeProject = document.querySelector(".close-project");
 const siteHeader = document.querySelector(".site-header");
 const menuToggle = document.querySelector(".menu-toggle");
@@ -72,6 +79,8 @@ const staticCopy = {
   workKicker: document.querySelector("#work .section-kicker"),
   aboutKicker: document.querySelector("#about .section-kicker"),
   contactKicker: document.querySelector("#contact .section-kicker"),
+  contactNote: document.querySelector(".contact-note"),
+  contactMeta: document.querySelector(".contact-meta"),
   aboutCopy: document.querySelector(".about-copy")
 };
 
@@ -147,12 +156,13 @@ function buildProjects() {
     const copy = getProjectCopy(project);
     return `
       <button class="project-card${project.noFilter ? " is-unfiltered" : ""}" type="button" data-project="${index}">
-        <img src="${project.thumb}" alt="${project.title} project thumbnail.">
+        <figure class="project-thumb">
+          <img src="${project.thumb}" alt="${project.title} project thumbnail.">
+        </figure>
         <div>
           <h3>${escapeHtml(project.title)}</h3>
           <p>${escapeHtml(copy.text)}</p>
         </div>
-        <span class="arrow" aria-hidden="true">-></span>
       </button>
     `;
   }).join("");
@@ -165,12 +175,14 @@ function openProject(index) {
   projectText.innerHTML = copy.details.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
   projectCounter.textContent = "";
   projectPreface.innerHTML = "";
+  activeProjectImageIndex = 0;
   projectImages.innerHTML = project.images.map((src, imageIndex) => `
-    <figure>
+    <figure class="${imageIndex === 0 ? "is-active" : ""}">
       <img src="${src}" alt="${project.title} photograph ${imageIndex + 1}.">
       ${project.hideCaptions ? "" : `<figcaption>${project.title} / Image ${String(imageIndex + 1).padStart(2, "0")}</figcaption>`}
     </figure>
   `).join("");
+  updateProjectCarousel();
   projectView.classList.toggle("is-unfiltered", project.noFilter);
   projectView.classList.add("is-open");
   projectView.setAttribute("aria-hidden", "false");
@@ -181,6 +193,49 @@ function closeProjectView() {
   projectView.classList.remove("is-open");
   projectView.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
+}
+
+function updateProjectCarousel() {
+  const slides = Array.from(projectImages.querySelectorAll("figure"));
+  if (!slides.length) {
+    projectImageCounter.textContent = "";
+    projectImages.style.removeProperty("height");
+    return;
+  }
+
+  activeProjectImageIndex = (activeProjectImageIndex + slides.length) % slides.length;
+  slides.forEach((slide, index) => {
+    slide.classList.toggle("is-active", index === activeProjectImageIndex);
+  });
+  projectImageCounter.textContent = `${String(activeProjectImageIndex + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+  fitProjectCarouselImage(slides[activeProjectImageIndex].querySelector("img"));
+}
+
+function moveProjectCarousel(direction) {
+  if (!projectView.classList.contains("is-open")) return;
+  activeProjectImageIndex += direction;
+  updateProjectCarousel();
+}
+
+function fitProjectCarouselImage(image) {
+  if (!image) return;
+
+  const applySize = () => {
+    const isMobile = window.matchMedia("(max-width: 820px)").matches;
+    const viewportCap = window.innerHeight * (isMobile ? 0.72 : 0.78);
+    const minHeight = isMobile ? 230 : 520;
+    const stageWidth = projectImages.clientWidth || window.innerWidth;
+    const imageRatio = image.naturalWidth ? image.naturalHeight / image.naturalWidth : 0.66;
+    const fittedHeight = Math.min(stageWidth * imageRatio, viewportCap);
+    projectImages.style.height = `${Math.max(fittedHeight, minHeight)}px`;
+  };
+
+  if (image.complete && image.naturalWidth) {
+    applySize();
+    return;
+  }
+
+  image.addEventListener("load", applySize, { once: true });
 }
 
 function escapeHtml(value) {
@@ -213,7 +268,28 @@ function updateHeaderState() {
 
 function setMenuState(isOpen) {
   document.body.classList.toggle("menu-open", isOpen);
+  siteHeader.classList.toggle("is-menu-open", isOpen);
   menuToggle.setAttribute("aria-expanded", String(isOpen));
+
+  if (isOpen) {
+    siteHeader.style.background = "#050505";
+    siteHeader.style.color = "#f5f2ec";
+    siteHeader.style.height = "72px";
+    siteHeader.style.paddingTop = "18px";
+    siteHeader.style.paddingBottom = "18px";
+    siteHeader.style.boxShadow = "none";
+    siteHeader.style.backdropFilter = "none";
+    return;
+  }
+
+  siteHeader.style.removeProperty("background");
+  siteHeader.style.removeProperty("color");
+  siteHeader.style.removeProperty("height");
+  siteHeader.style.removeProperty("padding-top");
+  siteHeader.style.removeProperty("padding-bottom");
+  siteHeader.style.removeProperty("box-shadow");
+  siteHeader.style.removeProperty("backdrop-filter");
+  updateHeaderState();
 }
 
 function setLanguage(language) {
@@ -232,6 +308,8 @@ function setLanguage(language) {
   staticCopy.workKicker.textContent = copy.workKicker;
   staticCopy.aboutKicker.textContent = copy.aboutKicker;
   staticCopy.contactKicker.textContent = copy.contactKicker;
+  staticCopy.contactNote.textContent = copy.contactNote;
+  staticCopy.contactMeta.textContent = copy.contactMeta;
   staticCopy.aboutCopy.querySelectorAll("p").forEach((paragraph, index) => {
     paragraph.textContent = copy.about[index] || paragraph.textContent;
   });
@@ -258,6 +336,12 @@ projectList.addEventListener("click", (event) => {
 
 closeProject.addEventListener("click", closeProjectView);
 
+carouselButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    moveProjectCarousel(button.dataset.carousel === "next" ? 1 : -1);
+  });
+});
+
 menuToggle.addEventListener("click", (event) => {
   event.preventDefault();
   setMenuState(!document.body.classList.contains("menu-open"));
@@ -272,9 +356,18 @@ languageButtons.forEach((button) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape") return;
-  closeProjectView();
-  setMenuState(false);
+  if (event.key === "Escape") {
+    closeProjectView();
+    setMenuState(false);
+  }
+
+  if (event.key === "ArrowRight") {
+    moveProjectCarousel(1);
+  }
+
+  if (event.key === "ArrowLeft") {
+    moveProjectCarousel(-1);
+  }
 });
 
 document.querySelectorAll("[data-scroll-target]").forEach((button) => {
